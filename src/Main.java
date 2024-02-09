@@ -11,37 +11,45 @@
  * а также дополнением матрицы новым столбцом с суммой модулей элементов каждой строки.
  */
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello!\n" +
         "The matrix program welcomes you\n" +
         "Enter the size of the matrix: ");
+        while (true) {
+            Integer rows = Math.abs(getCorrectInput("Please enter the number of rows"));
+            Integer columns = Math.abs(getCorrectInput("And columns too"));
 
-        Integer rows = Math.abs(getCorrectInput("Please enter the number of rows"));
-        Integer columns = Math.abs(getCorrectInput("And columns too"));
+            Integer taskSelected = getCorrectInput(new int[]{0,1}, 
+                new String("Please select the matrix input method\n" + 
+                "0 - manually\n" + 
+                "1 - randomized matrix "));
 
-        Integer taskSelected = getCorrectInput(new ArrayList<>(Arrays.asList(0, 1)), 
-            new String("Please select the matrix input method\n" + 
-            "0 - manually\n" + 
-            "1 - randomized matrix "));
+            int[][] matrix = null;
+            if(taskSelected == 1){
+                matrix = generateMatrix(rows, columns);
+            } else {
+                matrix = inputMatrix(rows, columns);
+            }
 
-        int[][] matrix = null;
-        if(taskSelected == 1){
-            matrix = generateMatrix(rows, columns);
-        } else {
-            matrix = inputMatrix(rows, columns);
-        }
+            System.out.println("\nEntered matrix:");
+            matrixPrint(matrix);
+            matrix = matrixModificator(rows, columns, matrix);
+            System.out.println("\nModificated matrix:");
+            matrixPrint(matrix);
 
-        System.out.println("\nEntered matrix:");
-        matrixPrint(matrix);
-        matrix = matrixModificator(rows, columns, matrix);
-        System.out.println("\nModificated matrix:");
-        matrixPrint(matrix);
+            taskSelected = getCorrectInput(new int[]{0,1}, 
+                new String("Enter the task:\n" +
+                "0 - continue\n" +
+                "1 - exit "));
+            if(taskSelected == 1){
+                break;
+            } else {
+                continue;
+            } 
+        }   
     }
 
     public static void matrixPrint(int[][] matrix) {
@@ -56,16 +64,16 @@ public class Main {
 
     // Функция перегрузки
     public static int getCorrectInput(String message) throws Exception {
-        return getCorrectInput(new ArrayList<Integer>(), message);
+        return getCorrectInput(new int[]{}, message);
     }
 
-    public static int getCorrectInput(ArrayList<Integer> correctValues, String message) {
+    public static int getCorrectInput(int[] correctValues, String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         while (true) {
             if(scanner.hasNextInt()) {
                 int result = scanner.nextInt();
-                if(correctValues.contains(result) || correctValues.isEmpty()){
+                if(contains(correctValues, result) || correctValues.length == 0){
                     return result;
                 }
                 System.out.println("The input is incorrect. Please try again");
@@ -75,6 +83,16 @@ public class Main {
                 scanner = new Scanner(System.in);
             }
         }
+    }
+
+    // Замена спискам и их функциям посика элементов
+    private static boolean contains(int[] correctValues, int result) {
+        for (int i : correctValues) {
+            if (i == result){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static int[][] inputMatrix(int rows, int columns) {
@@ -136,13 +154,27 @@ public class Main {
             }
             sortedMatrix[i][columns] = rowsSumm;
         }
-        // Скопировано с
+
+        // Я нашел метод не относящийся к спискам
         // https://stackoverflow.com/questions/15452429/java-arrays-sort-2d-array
-        java.util.Arrays.sort(sortedMatrix, Comparator.comparingInt(o -> o[columns]));
-        int[][] rotatedMatrix = new int[rows][columns + 1];
-        for(int i = 0; i < rows; i++){
-            rotatedMatrix[i] = sortedMatrix[rows - i - 1];
+        // В задании не говорилось про Arrays, значит я мог сделать так:
+        // java.util.Arrays.sort(sortedMatrix, Comparator.comparingInt(o -> o[columns]));
+        // После чего просто отразить матрицу по вретикали
+        // Но все же я решил реализовать сортировку пузырьком
+
+        return matrixBubleSort(rows, columns, sortedMatrix);
+    }
+
+    public static int[][] matrixBubleSort(int rows, int columns, int[][] matrix) {
+        for(int j = 0; j < rows - 1; j++) {
+            for(int i = 0; i < rows - 1; i++) {
+                if(matrix[i][columns] < matrix[i+1][columns]) {
+                    int temp = matrix[i][columns];
+                    matrix[i][columns] = matrix[i+1][columns];
+                    matrix[i+1][columns] = temp;
+                }
+            }
         }
-        return rotatedMatrix;
+        return matrix;
     }
 }
