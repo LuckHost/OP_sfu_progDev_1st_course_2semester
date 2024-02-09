@@ -1,3 +1,16 @@
+/*
+ * Выполнил Ходыкин Александр КИ23-17/2Б
+ * Ссылка на удаленный репозиторий:
+ * https://github.com/LuckHost/OP_sfu_progDev_1st_course_2semester
+ * 
+ * Номер варианта: 7
+ * 
+ * Задание:
+ * Входные данные: целочисленная матрица. Результат работы алгоритма: 
+ * матрица, полученная из входной, путем упорядочивания строк в порядке убывания суммы модулей их элементов, 
+ * а также дополнением матрицы новым столбцом с суммой модулей элементов каждой строки.
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -29,7 +42,6 @@ public class Main {
         matrix = matrixModificator(rows, columns, matrix);
         System.out.println("\nModificated matrix:");
         matrixPrint(matrix);
-        
     }
 
     public static void matrixPrint(int[][] matrix) {
