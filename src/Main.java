@@ -14,6 +14,14 @@
 import java.util.Scanner;
 
 public class Main {
+    /*
+     * Главная функция программы
+     * 
+     * Приветствует пользователя, потом запускает цикл программы
+     * После завершения подсчетов спрашивает поьзователя, хочет
+     * ли он окончить работу
+     * 
+     */
     public static void main(String[] args) throws Exception {
         System.out.println("Hello!\n" +
         "The matrix program welcomes you\n" +
@@ -52,6 +60,9 @@ public class Main {
         }   
     }
 
+    /*
+     * Выводит полученную на входе матрицу
+     */
     public static void matrixPrint(int[][] matrix) {
         for (int[] is : matrix) {
             System.out.println();
@@ -62,11 +73,31 @@ public class Main {
         System.out.println();
     }
 
-    // Функция перегрузки
+    /*
+     * Функция перегрузки для функции ввода переменных
+     * 
+     * Принимет сообщение, которое надо отправить
+     * пользователю перед вводом данных
+     * 
+     * Возвращает значение функции ввода, в котрую
+     * отправляет сообщение и пустой массив
+     * 
+     */
     public static int getCorrectInput(String message) throws Exception {
         return getCorrectInput(new int[]{}, message);
     }
 
+    /*
+     * Функция корректного ввода
+     * Просит пользователя ввести значение
+     * до тех пор, пока оно не будет корректным 
+     * 
+     * Получет на вход область допустимых
+     * значений в виде массива и строку сообщения
+     * для пользователя
+     * 
+     * Возвращает число, введенное пользователем
+     */
     public static int getCorrectInput(int[] correctValues, String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
@@ -85,7 +116,16 @@ public class Main {
         }
     }
 
-    // Замена спискам и их функциям посика элементов
+    /* 
+     * Замена методу списков с одноименным
+     * названием.
+     * 
+     * Получает на вход массив int[] и целочисленное
+     * значение
+     * 
+     * Возвращает true, если это значение есть
+     * в массиве и false, если его нет
+     */ 
     private static boolean contains(int[] correctValues, int result) {
         for (int i : correctValues) {
             if (i == result){
@@ -95,6 +135,16 @@ public class Main {
         return false;
     }
 
+    /*
+     * Функция ввода матрицы вручную
+     * Пользователь по очереди вводит строки матрицы,
+     * после чего они собираются в одну матрицу и
+     * возвращаются функцией
+     * 
+     * Получает на вход количество строк и столбцов
+     * 
+     * Возвращает матрицу, введенную пользователем
+     */
     public static int[][] inputMatrix(int rows, int columns) {
         int[][] matrix = new int[rows][columns];
         for(int i = 0; i < rows; i++) {
@@ -134,6 +184,14 @@ public class Main {
         return matrix;
     }
 
+    /*
+     * Герератор матриц
+     * 
+     * Принимает на вход количество строк
+     * и столбцов матрицы
+     * 
+     * Возвращает рандомно сгенерированную матрицу
+     */
     public static int[][] generateMatrix(int rows, int columns) {
         int[][] matrix = new int[rows][columns];
         for(int i = 0; i < rows; i++){
@@ -144,6 +202,19 @@ public class Main {
         return matrix;
     }
 
+    /*
+     * Модификатор матриц
+     * Добавлает в новый стобец значения
+     * суммы модулей элементов строки
+     * 
+     * Принимает на вход количество строк, столбцов
+     * и саму матрицу
+     * Да, конечно было бы логичней принимать только матрицу
+     * Но это был вопрос пары строк либо в main методе, либо здесь
+     * 
+     * Возвращает матрицу с новым стоцом, отсортированную
+     * по этому столбцу по убыванию
+     */
     public static int[][] matrixModificator(int rows, int columns, int[][] matrix) {
         int[][] sortedMatrix = new int[rows][columns + 1];
         for(int i = 0; i < rows; i++){
@@ -161,9 +232,21 @@ public class Main {
         // java.util.Arrays.sort(sortedMatrix, Comparator.comparingInt(o -> o[columns]));
         // После чего просто отразить матрицу по вретикали
         // Но все же я решил реализовать сортировку пузырьком
+        // Прошу указать, можно ли было использовать метод Arrays
 
         return matrixBubleSort(rows, columns, sortedMatrix);
     }
+
+    /*
+     * Сортировка пузырьком
+     * Сортирует матрицу по последнему столбцу
+     * по убыванию
+     * 
+     * Принимает на вход количество строк, столбцов
+     * и саму матрицу
+     * 
+     * Возвращает отсортированную матрицу
+     */
 
     public static int[][] matrixBubleSort(int rows, int columns, int[][] matrix) {
         for(int j = 0; j < rows - 1; j++) {
