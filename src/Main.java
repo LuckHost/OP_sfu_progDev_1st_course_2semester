@@ -29,6 +29,10 @@ public class Main {
         while (true) {
             Integer rows = Math.abs(getCorrectInput("Please enter the number of rows"));
             Integer columns = Math.abs(getCorrectInput("And columns too"));
+            if(rows == null || columns == null){
+                System.out.println("\nYou have entered an empty value");
+                continue;
+            }
 
             Integer taskSelected = getCorrectInput(new int[]{0,1}, 
                 new String("Please select the matrix input method\n" + 
