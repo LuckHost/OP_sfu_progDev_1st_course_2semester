@@ -27,17 +27,26 @@ public class Main {
         "The matrix program welcomes you\n" +
         "Enter the size of the matrix: ");
         while (true) {
-            Integer rows = Math.abs(getCorrectInput("Please enter the number of rows"));
-            Integer columns = Math.abs(getCorrectInput("And columns too"));
-            if(rows == null || columns == null){
-                System.out.println("\nYou have entered an empty value");
+            Integer taskSelected = getCorrectInput(new int[]{0,1}, 
+                new String("Enter the task:\n" +
+                "0 - continue\n" +
+                "1 - exit "), false);
+            if(taskSelected == 1){
+                break;
+            }
+
+            Integer rows = getCorrectInput("Please enter the number of rows", true);
+            Integer columns = getCorrectInput("And columns too", true);
+            if(rows <= 0 || columns <= 0){
+                System.out.println("\nYou entered a number less than one. Please try again.");
                 continue;
             }
 
-            Integer taskSelected = getCorrectInput(new int[]{0,1}, 
+
+            taskSelected = getCorrectInput(new int[]{0,1}, 
                 new String("Please select the matrix input method\n" + 
                 "0 - manually\n" + 
-                "1 - randomized matrix "));
+                "1 - randomized matrix "), false);
 
             int[][] matrix = null;
             if(taskSelected == 1){
@@ -51,16 +60,6 @@ public class Main {
             matrix = matrixModificator(rows, columns, matrix);
             System.out.println("\nModificated matrix:");
             matrixPrint(matrix);
-
-            taskSelected = getCorrectInput(new int[]{0,1}, 
-                new String("Enter the task:\n" +
-                "0 - continue\n" +
-                "1 - exit "));
-            if(taskSelected == 1){
-                break;
-            } else {
-                continue;
-            } 
         }   
     }
 
@@ -87,8 +86,8 @@ public class Main {
      * отправляет сообщение и пустой массив
      * 
      */
-    public static int getCorrectInput(String message) throws Exception {
-        return getCorrectInput(new int[]{}, message);
+    public static int getCorrectInput(String message, boolean necessarilyPositive) throws Exception {
+        return getCorrectInput(new int[]{}, message, necessarilyPositive);
     }
 
     /*
@@ -102,14 +101,21 @@ public class Main {
      * 
      * Возвращает число, введенное пользователем
      */
-    public static int getCorrectInput(int[] correctValues, String message) {
+    public static int getCorrectInput(int[] correctValues, String message, boolean necessarilyPositive) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         while (true) {
             if(scanner.hasNextInt()) {
                 int result = scanner.nextInt();
                 if(contains(correctValues, result) || correctValues.length == 0){
-                    return result;
+                    if(!necessarilyPositive){
+                        return result;
+                    }
+                    else{
+                        if(result>0){
+                            return result;
+                        }
+                    }
                 }
                 System.out.println("The input is incorrect. Please try again");
                 scanner = new Scanner(System.in);
@@ -152,7 +158,7 @@ public class Main {
     public static int[][] inputMatrix(int rows, int columns) {
         int[][] matrix = new int[rows][columns];
         for(int i = 0; i < rows; i++) {
-            System.out.println("Enter the line number " + (i+1) + "separated by a space");
+            System.out.println("Enter the line number " + (i+1) + " separated by a space");
             Scanner scanner = new Scanner(System.in);
             int[] rowOfNumbers = new int[columns];
             while (true) {
