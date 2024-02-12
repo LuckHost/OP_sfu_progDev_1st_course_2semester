@@ -18,49 +18,74 @@ public class Main {
      * Главная функция программы
      * 
      * Приветствует пользователя, потом запускает цикл программы
-     * После завершения подсчетов спрашивает поьзователя, хочет
-     * ли он окончить работу
      * 
      */
     public static void main(String[] args) throws Exception {
         System.out.println("Hello!\n" +
         "The matrix program welcomes you\n" +
         "Enter the size of the matrix: ");
+        int[][] matrix = null;
+        int[][] modificatedMatrix = null;
         while (true) {
-            Integer taskSelected = getCorrectInput(new int[]{0,1}, 
+            Integer taskSelected = getCorrectInput(new int[]{0, 1, 2, 3}, 
                 new String("Enter the task:\n" +
-                "0 - continue\n" +
-                "1 - exit "), false);
-            if(taskSelected == 1){
+                "0 - input the matrix\n" +
+                "1 - modificate the matrix\n" +
+                "2 - output the result\n" + 
+                "3 - exit"), false);
+            if(taskSelected == 3){
                 break;
             }
-
-            Integer rows = getCorrectInput("Please enter the number of rows", true);
-            Integer columns = getCorrectInput("And columns too", true);
-            if(rows <= 0 || columns <= 0){
-                System.out.println("\nYou entered a number less than one. Please try again.");
-                continue;
+            
+            if(taskSelected == 0){
+                modificatedMatrix = null;
+                matrix = null;
+                matrix = inputMatrix();
+                System.out.println("\nEntered matrix:");
+                matrixPrint(matrix);
             }
+            if(taskSelected == 1){
+                if(matrix == null) {
+                    System.out.println("\nThe matrix has not been entered yet");
+                    continue;
+                }
+                modificatedMatrix = matrixModificator(matrix);
+            }
+            if(taskSelected == 2) {
+                if(modificatedMatrix == null) {
+                    System.out.println("\nThe matrix has not been modificated yet");
+                    continue;
+                }
+                System.out.println("\nEntered matrix:");
+                matrixPrint(matrix);
+                System.out.println("\nModificated matrix:");
+                matrixPrint(modificatedMatrix);
+            }
+        }   
+    }
 
+    /*
+     * Принимает у пользователя матрицу
+     * 
+     * Позваоляет выбрать метод ввода:
+     * Ручной или сгенерировать случайным образом
+     */
+    public static int[][] inputMatrix() throws Exception {
+        Integer rows = getCorrectInput("Please enter the number of rows", true);
+        Integer columns = getCorrectInput("And columns too", true);
+    
+        Integer taskSelected = getCorrectInput(new int[]{0,1}, 
+        new String("Please select the matrix input method\n" + 
+        "0 - manually\n" + 
+        "1 - randomized matrix "), false);
 
-            taskSelected = getCorrectInput(new int[]{0,1}, 
-                new String("Please select the matrix input method\n" + 
-                "0 - manually\n" + 
-                "1 - randomized matrix "), false);
-
-            int[][] matrix = null;
+        int[][] matrix = null;
             if(taskSelected == 1){
                 matrix = generateMatrix(rows, columns);
             } else {
                 matrix = inputMatrix(rows, columns);
             }
-
-            System.out.println("\nEntered matrix:");
-            matrixPrint(matrix);
-            matrix = matrixModificator(rows, columns, matrix);
-            System.out.println("\nModificated matrix:");
-            matrixPrint(matrix);
-        }   
+        return matrix;
     }
 
     /*
@@ -219,13 +244,14 @@ public class Main {
      * 
      * Принимает на вход количество строк, столбцов
      * и саму матрицу
-     * Да, конечно было бы логичней принимать только матрицу
-     * Но это был вопрос пары строк либо в main методе, либо здесь
      * 
      * Возвращает матрицу с новым стоцом, отсортированную
      * по этому столбцу по убыванию
      */
-    public static int[][] matrixModificator(int rows, int columns, int[][] matrix) {
+    public static int[][] matrixModificator(int[][] matrix) {
+        int rows = matrix.length;
+        int columns = matrix[0].length;
+        
         int[][] sortedMatrix = new int[rows][columns + 1];
         for(int i = 0; i < rows; i++){
             int rowsSumm = 0;
