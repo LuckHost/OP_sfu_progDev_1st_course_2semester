@@ -58,18 +58,25 @@ public class Main {
                     studentsBase.add(newStudent);
                     break;
                 case 2:
+                    if(studentsBase.size() == 0) {
+                        System.out.println(new String("There is no students to change now "));
+                        break;
+                    }
+                    printAllStudents(studentsBase);
                     changeStudentsField(studentsBase);
                     break;
                 case 3:
-                    for (Student student : studentsBase) {
-                        System.out.println(student.getName() + " " 
-                        + student.getStudyField() + " "
-                        + student.getAverageRating() + " " 
-                        + student.getYearOfAdmission() + " " 
-                        + student.getCourse());
+                    if(studentsBase.size() == 0) {
+                        System.out.println(new String("There is no students to print now "));
+                        break;
                     }
+                    printAllStudents(studentsBase);
                     break;
                 case 4:
+                    if(studentsBase.size() == 0) {
+                        System.out.println(new String("There is no students to sort now "));
+                        break;
+                    }
                     sortStudentBase(studentsBase);
                     break;
                 case 5:
@@ -79,6 +86,33 @@ public class Main {
         }
     }
 
+    /*
+     * Выводит в консоль всех студентов
+     * 
+     * Принимает базу студентов 
+     */
+    public static void printAllStudents(ArrayList<Student> studentsBase) {
+        int counter = 0;
+        for (Student student : studentsBase) {
+            System.out.println(counter + " | " + student.getName() + " " 
+            + student.getStudyField() + " "
+            + student.getAverageRating() + " " 
+            + student.getYearOfAdmission() + " " 
+            + student.getCourse());
+            counter++;
+        }
+        
+    }
+
+    /*
+     * Сортирует массив студентов по любому полю
+     * 
+     * Принимает массив студентов
+     * 
+     * Источник "вдохновения":
+     * https://stackoverflow.com/questions/15452429/java-arrays-sort-2d-array
+     * 
+     */
     public static void sortStudentBase(ArrayList<Student> studentsBase) {
         Integer fieldSelected = getCorrectInput(0, 4, 
             new String("Enter the student's field you want to change:\n" +
@@ -128,6 +162,11 @@ public class Main {
         }
     }
 
+    /*
+     * Изменяет любое данное поле
+     * любого студента в базе
+     * Принимает базу студентов
+     */
     public static void changeStudentsField(ArrayList<Student> studentsBase) {
         Integer userId = getCorrectInput(0, 3, 
             new String("Enter the student's number you want to change: "));
@@ -159,7 +198,13 @@ public class Main {
         }
         
     }
-
+    /*
+     * Функция импорта корректного строкового значения
+     * 
+     * Принимает сообщение, которое надо выдать пользователю
+     * 
+     * Возвращает строку
+     */
     public static String getCorrectStrInput(String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
@@ -182,6 +227,13 @@ public class Main {
         return output;
     }
 
+    /*
+     * Функция импорта корректного значения типа float
+     * 
+     * Принимает сообщение, которое надо выдать пользователю
+     * 
+     * Возвращает значение float 
+     */
     public static float getCorrectFloatInput(String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);

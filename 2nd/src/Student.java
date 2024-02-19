@@ -4,6 +4,11 @@ public class Student {
     private Float averageRating = 0f;
     private Integer yearOfAdmission = 2023;
 
+    /*
+     * Ниже находятся функции
+     * геттеры и сеттеры для каждого
+     * из аргументов класса
+     */
     public void setName(String newName) {
         name = newName;
     }
@@ -36,10 +41,17 @@ public class Student {
         return yearOfAdmission;
     }
 
+    /*
+     * Та самая "Уникальная" функция
+     * Высчитывает курс, на которм находится студент
+     */
     public Integer getCourse() {
         return 2024 - yearOfAdmission;
     }
 
+    /*
+     * Конструктор класса
+     */
     public Student(String newName, String newStudyField, 
     float newAverageRating, Integer newYearOfAdmission){
         setName(newName);
