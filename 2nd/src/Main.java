@@ -14,6 +14,8 @@
 */
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
@@ -27,16 +29,17 @@ public class Main {
         System.out.println("Hello!\n" +
         "The student information preservation " +
         "program program welcomes you\n");
-        ArrayList studentsBase = new ArrayList<>();
-        while (true) {
-            Integer taskSelected = getCorrectInput(new int[]{0, 1, 2, 3, 4, 5}, 
+        ArrayList<Student> studentsBase = new ArrayList<Student>();
+        boolean working = true;
+        while (working) {
+            Integer taskSelected = getCorrectInput(0, 5, 
                 new String("Enter the task:\n" +
                 "0 - Add new student with empty values\n" +
                 "1 - Add new student and enter the values\n" +
                 "2 - Edit student values by index\n" +
                 "3 - Print all students to the console\n" + 
                 "4 - Sort the list by field\n" + 
-                "5 - exit"), false);
+                "5 - exit"));
             switch (taskSelected) {
                 case 0:
                     Student newStudent = new Student();
@@ -45,27 +48,155 @@ public class Main {
                 case 1:
                     String name = getCorrectStrInput(new String("Enter the student's name: "));
                     String fieldOfStudy = getCorrectStrInput(new String("Enter the student's field of study: "));
+                    float averageRating = getCorrectFloatInput(new String("Enter the student's average rating: "));
+                    // максимальный срок обуения - 11 лет
+                    // значит и минимальный год поступления - 2013
+                    Integer yearOfAdmission = getCorrectInput(2013, 2023, 
+                    new String("Enter the student's year of admission: "));
 
-                default:
+                    newStudent = new Student(name, fieldOfStudy, averageRating, yearOfAdmission);
+                    studentsBase.add(newStudent);
+                    break;
+                case 2:
+                    changeStudentsField(studentsBase);
+                    break;
+                case 3:
+                    for (Student student : studentsBase) {
+                        System.out.println(student.getName() + " " 
+                        + student.getStudyField() + " "
+                        + student.getAverageRating() + " " 
+                        + student.getYearOfAdmission() + " " 
+                        + student.getCourse());
+                    }
+                    break;
+                case 4:
+                    sortStudentBase(studentsBase);
+                    break;
+                case 5:
+                    working = false;
                     break;
             }
         }
     }
 
+    public static void sortStudentBase(ArrayList<Student> studentsBase) {
+        Integer fieldSelected = getCorrectInput(0, 4, 
+            new String("Enter the student's field you want to change:\n" +
+            "0 - Name\n" +
+            "1 - Field of study\n" +
+            "2 - Average rating\n" +
+            "3 - Year of admission\n" +
+            "3 - Course\n"));
+        switch (fieldSelected) {
+            case 0:
+                Collections.sort(studentsBase, new Comparator<Student>() {
+                    public int compare(Student o1, Student o2) {
+                        return - o2.getName().compareTo(o1.getName());
+                        }
+                    });
+                break;
+            case 1:
+                Collections.sort(studentsBase, new Comparator<Student>() {
+                    public int compare(Student o1, Student o2) {
+                        return - o2.getStudyField().compareTo(o1.getStudyField());
+                        }
+                    });
+                break;
+            case 2:
+                Collections.sort(studentsBase, new Comparator<Student>() {
+                    public int compare(Student o1, Student o2) {
+                        return - o2.getAverageRating().compareTo(o1.getAverageRating());
+                        }
+                });
+                break;
+            case 3:
+                Collections.sort(studentsBase, new Comparator<Student>() {
+                    public int compare(Student o1, Student o2) {
+                        return - o2.getYearOfAdmission().compareTo(o1.getYearOfAdmission());
+                        }
+                    });
+                break;
+            case 4:
+                Collections.sort(studentsBase, new Comparator<Student>() {
+                    public int compare(Student o1, Student o2) {
+                        return - o2.getCourse().compareTo(o1.getCourse());
+                        }
+                    });
+                break;  
+            default:
+                break;
+        }
+    }
+
+    public static void changeStudentsField(ArrayList<Student> studentsBase) {
+        Integer userId = getCorrectInput(0, 3, 
+            new String("Enter the student's number you want to change: "));
+        Student stdToChange = studentsBase.get(userId);
+        Integer fieldSelected = getCorrectInput(0, 5, 
+            new String("Enter the student's field you want to change:\n" +
+            "0 - Name\n" +
+            "1 - Field of study\n" +
+            "2 - Average rating\n" +
+            "3 - Year of admission\n"));
+        switch (fieldSelected) {
+            case 0:
+                String name = getCorrectStrInput(new String("Enter the student's name: "));
+                stdToChange.setName(name);
+                break;
+            case 1:
+                String fieldOfStudy = getCorrectStrInput(new String("Enter the student's field of study: "));
+                stdToChange.setStudyField(fieldOfStudy);
+                break;
+            case 2:
+                float averageRating = getCorrectFloatInput(new String("Enter the student's average rating: "));
+                stdToChange.setAverageRating(averageRating);
+                break;
+            case 3:
+                Integer yearOfAdmission = getCorrectInput(2013, 2023, 
+                new String("Enter the student's year of admission: "));
+                stdToChange.setYearOfAdmission(yearOfAdmission);
+                break;
+        }
+        
+    }
+
     public static String getCorrectStrInput(String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
+        String output = null;
         String[] wrongValues = new String[]{"@", "#", "$", "%", "^", "&", "*", "+", "="};
-        while (true) {
-            String output = scanner.nextLine();
+        Boolean cntnue = true;
+        while (cntnue) {
+            output = scanner.nextLine();
             for (String wrongValue : wrongValues) {
-                if(output.indexOf(wrongValue) == -1){
+                if(output.indexOf(wrongValue) != -1){
                     System.out.println("The input has forbidden characters. Please try again");
                     scanner = new Scanner(System.in);
-                    continue;
+                    cntnue = true;
+                    break;
+                } else {
+                    cntnue = false;
                 }
             }
-            return output;
+        }
+        return output;
+    }
+
+    public static float getCorrectFloatInput(String message) {
+        System.out.println(message);
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            if(scanner.hasNextFloat()) {
+                float result = scanner.nextFloat();
+                if(result >= 0 && result <= 5){
+                    return result;
+                }
+                System.out.println("The input is incorrect. Please try again");
+                scanner = new Scanner(System.in);
+            } else {
+                System.out.println("Try again");
+                scanner = new Scanner(System.in);
+            }
         }
     }
 
@@ -79,8 +210,8 @@ public class Main {
     * отправляет сообщение и пустой массив
     * 
     */
-    public static int getCorrectInput(String message, boolean necessarilyPositive) throws Exception {
-        return getCorrectInput(new int[]{}, message, necessarilyPositive);
+    public static int getCorrectInput(String message) throws Exception {
+        return getCorrectInput(0, 0, message);
     }
 
     /*
@@ -89,26 +220,20 @@ public class Main {
     * до тех пор, пока оно не будет корректным 
     * 
     * Получет на вход область допустимых
-    * значений в виде массива и строку сообщения
+    * значений в виде начала и конца массива 
+    * и строку сообщения
     * для пользователя
     * 
     * Возвращает число, введенное пользователем
     */
-    public static int getCorrectInput(int[] correctValues, String message, boolean necessarilyPositive) {
+    public static int getCorrectInput(int crctVlsStart, int crctVlsEnd, String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         while (true) {
             if(scanner.hasNextInt()) {
                 int result = scanner.nextInt();
-                if(contains(correctValues, result) || correctValues.length == 0){
-                    if(!necessarilyPositive){
-                        return result;
-                    }
-                    else{
-                        if(result>0){
-                            return result;
-                        }
-                    }
+                if((result >= crctVlsStart && result <= crctVlsEnd) || crctVlsStart == crctVlsEnd) {
+                    return result;
                 }
                 System.out.println("The input is incorrect. Please try again");
                 scanner = new Scanner(System.in);
@@ -117,27 +242,5 @@ public class Main {
                 scanner = new Scanner(System.in);
             }
         }
-    }
-
-    /* 
-    * Замена методу списков с одноименным
-    * названием.
-    * Просто взял из прошлой лабы,
-    * на производительность сильно не влияет, так что
-    * можно оставить все как есть
-    * 
-    * Получает на вход массив int[] и целочисленное
-    * значение
-    * 
-    * Возвращает true, если это значение есть
-    * в массиве и false, если его нет
-    */ 
-    private static boolean contains(int[] correctValues, int result) {
-        for (int i : correctValues) {
-            if (i == result){
-                return true;
-            }
-        }
-        return false;
     }
 }

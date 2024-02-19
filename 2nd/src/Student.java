@@ -1,7 +1,7 @@
 public class Student {
-    private String name = "Без имени";
-    private String fieldOfStudy = "Не указано";
-    private float averageRating = 4.5f;
+    private String name = "No name";
+    private String fieldOfStudy = "Not specified";
+    private Float averageRating = 0f;
     private Integer yearOfAdmission = 2023;
 
     public void setName(String newName) {
@@ -24,7 +24,7 @@ public class Student {
         averageRating = newAverageRating;
     }
     
-    public float getAverageRating() {
+    public Float getAverageRating() {
         return averageRating;
     }
 
@@ -40,11 +40,14 @@ public class Student {
         return 2024 - yearOfAdmission;
     }
 
-    public void Student(String newName, String newStudyField, 
+    public Student(String newName, String newStudyField, 
     float newAverageRating, Integer newYearOfAdmission){
         setName(newName);
         setStudyField(newStudyField);
         setAverageRating(newAverageRating);
         setYearOfAdmission(newYearOfAdmission);
+    }
+
+    public Student() {
     }
 }
