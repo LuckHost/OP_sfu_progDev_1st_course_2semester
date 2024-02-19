@@ -36,6 +36,10 @@ public class Student {
         return yearOfAdmission;
     }
 
+    public Integer getCourse() {
+        return 2024 - yearOfAdmission;
+    }
+
     public void Student(String newName, String newStudyField, 
     float newAverageRating, Integer newYearOfAdmission){
         setName(newName);
