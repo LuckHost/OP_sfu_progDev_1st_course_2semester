@@ -1,7 +1,12 @@
+import java.util.Objects;
+
 public class Vhencle {
   private String assemblyCountry = "is not set";
   private int serialNumber = 0;
 
+  /*
+   * Ниже представлены геттеры и сеттеры
+   */
   public String setCountry(String newCountry) {
     if(newCountry.matches("\\d+")) {
       return "The string contains numbers, the country is not set";
@@ -26,10 +31,12 @@ public class Vhencle {
     return serialNumber;
   }
 
+  // Функция, возвращающая объект в виде строки
   public String toString() {
     return new String(assemblyCountry + " " + Integer.toString(serialNumber));
   }
 
+  // Сравнивает данный и собственый объект
   public boolean equals(Object otherObject) {
     if (this == otherObject) return true;
     if (otherObject == null) return false;
@@ -40,6 +47,13 @@ public class Vhencle {
     && assemblyCountry.equals(other.assemblyCountry);
   }
 
+  // Возвращает hash код
+  @Override
+  public int hashCode() {
+    return Objects.hash(serialNumber, assemblyCountry);
+  }
+
+  // Конструктор
   public Vhencle(String assembCountry, int serNumber) {
     System.out.println(setCountry(assembCountry));
     System.out.println(setSerNumb(serNumber));

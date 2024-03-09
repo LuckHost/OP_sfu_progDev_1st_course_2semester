@@ -42,9 +42,14 @@ public class EventHandler {
           vhencleBase.add(newObject);
           break;
         case 1:
+          if(vhencleBase.size() < 1) {
+            System.out.println("Base is empty");
+            break;
+          }
           printAlIbjects(vhencleBase);
           int indexToDel = getCorrectInput(0, vhencleBase.size(), "Choose the object to delete (write a number)");
           vhencleBase.remove(indexToDel);
+          break;
         case 2:
           printAlIbjects(vhencleBase);
           break;
@@ -137,62 +142,7 @@ public class EventHandler {
     var firstObject = vhencleBase.get(indexToCompare_1);
     var secondObject = vhencleBase.get(indexToCompare_2);
 
-    if(firstObject.getCountry().equals(secondObject.getCountry())) {
-      System.out.println("The objects have the same assembly country");
-    }
-    if(firstObject.getSerNumb() == secondObject.getSerNumb()) {
-      System.out.println("The objects have the same serial number");
-    }
-    String firstObjectClass = firstObject.getClass().toString();
-    String secondObjectClass = secondObject.getClass().toString();
-    if(firstObjectClass == secondObjectClass) {
-      System.out.println("The objects have the same class");
-      // Ввиду запрещения использования рефлексии я пришел к такому громосткому решению
-      switch (firstObjectClass) {
-        case "class Vhencle":
-          break;
-        case "class Car":
-          if(((Car) firstObject).getBrand().equals(((Car) secondObject).getBrand())) {
-            System.out.println("The objects have the same brand");
-          }
-          if(((Car) firstObject).getProdYear() == ((Car) secondObject).getProdYear()) {
-            System.out.println("The objects have the same year of production");
-          }
-        case "class Train":
-          if(((Train) firstObject).getTrainPurp().equals(((Train) secondObject).getTrainPurp())) {
-            System.out.println("The objects have the same train purpose");
-          }
-          if(((Train) firstObject).getMaxSpeed() == ((Train) secondObject).getMaxSpeed()) {
-            System.out.println("The objects have the same train maximum speed");
-          }
-        case "class Express":
-          if(((Train) firstObject).getTrainPurp().equals(((Train) secondObject).getTrainPurp())) {
-            System.out.println("The objects have the same train purpose");
-          }
-          if(((Express) firstObject).getMaxSpeed() == ((Express) secondObject).getMaxSpeed()) {
-            System.out.println("The objects have the same train maximum speed");
-          }
-          if(((Express) firstObject).getExpressway().equals(((Express) secondObject).getExpressway())) {
-            System.out.println("The objects have the same expressway");
-          }
-          if(((Express) firstObject).getMaxSpeed() == ((Express) secondObject).getMaxSpeed()) {
-            System.out.println("The objects have the same last year of service");
-          }
-        default:
-          break;
-      }
-    }
-    // Позволяет сравнить объекты, если один из них поезд, а другой - экспресс
-    if((firstObjectClass.equals("class Train") && secondObjectClass.equals("class Express")) || 
-    (firstObjectClass.equals("class Express") && secondObjectClass.equals("class Train"))) {
-      if(((Train) firstObject).getTrainPurp().equals(((Train) secondObject).getTrainPurp())) {
-        System.out.println("The objects have the same train purpose");
-      }
-      if(((Train) firstObject).getMaxSpeed() == ((Train) secondObject).getMaxSpeed()) {
-        System.out.println("The objects have the same train maximum speed");
-      }
-    }
-    System.out.println("The comparison is over");
+    System.out.println("The result of the comparison: " + firstObject.equals(secondObject));
   }
   
   /*

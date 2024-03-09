@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Train extends Vhencle {
   private String trainPurpose = "Грузовой";
   private int maxSpeed = 0;
@@ -29,10 +31,12 @@ public class Train extends Vhencle {
     return maxSpeed;
   }
 
+  // Функция, возвращающая объект в виде строки
   public String toString() {
     return new String(super.toString() + " " + trainPurpose + " " + Integer.toString(maxSpeed));
   }
 
+  // Сравнивает данный и собственый объект
   public boolean equals(Object otherObject) {
     if(otherObject instanceof Vhencle && super.equals(otherObject)) return true;
     if (this == otherObject) return true;
@@ -44,6 +48,13 @@ public class Train extends Vhencle {
     && trainPurpose.equals(other.getTrainPurp());
   }
 
+  // Возвращает hash код
+  @Override
+  public int hashCode() {
+    return Objects.hash(maxSpeed, trainPurpose);
+  }
+
+  // Конструктор
   public Train(String assembCountry, int serNumber, String newPurpose, int newMaxSpeed) {
     super(assembCountry, serNumber);
     System.out.println(setTrainPurp(newPurpose));

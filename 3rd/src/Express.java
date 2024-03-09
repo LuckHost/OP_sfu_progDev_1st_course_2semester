@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Express extends Train {
   private String mainExpressway = "М11 «Нева»";
   private int yearOfService = 1900;
@@ -26,6 +28,7 @@ public class Express extends Train {
     return yearOfService;
   }
 
+  // Сравнивает данный и собственый объект
   public boolean equals(Object otherObject) {
     if(otherObject instanceof Train && super.equals(otherObject)) return true;
     if (this == otherObject) return true;
@@ -37,10 +40,18 @@ public class Express extends Train {
     && mainExpressway.equals(other.getExpressway());
   }
 
+  // Функция, возвращающая объект в виде строки
   public String toString() {
     return new String(super.toString() + " " + mainExpressway + " " + Integer.toString(yearOfService));
   }
 
+  // Возвращает hash код
+  @Override
+  public int hashCode() {
+    return Objects.hash(yearOfService, mainExpressway);
+  }
+
+  // Конструктор
   public Express(String assembCountry, int serNumber, 
     String newPurpose, int newMaxSpeed,
     String newExpressway, int newServiceYear) {

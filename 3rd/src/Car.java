@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Car extends Vhencle {
   private String brand = "";
   private int yearOfProduction = 2023;
@@ -26,10 +28,12 @@ public class Car extends Vhencle {
     return yearOfProduction;
   }
 
+  // Функция, возвращающая объект в виде строки
   public String toString() {
     return new String(super.toString() + " " + brand + " " + Integer.toString(yearOfProduction));
   }
 
+  // Сравнивает данный и собственый объект
   public boolean equals(Object otherObject) {
     if(otherObject instanceof Vhencle && super.equals(otherObject)) return true;
     if (this == otherObject) return true;
@@ -41,6 +45,13 @@ public class Car extends Vhencle {
     && brand.equals(other.getBrand());
   }
 
+  // Возвращает hash код
+  @Override
+  public int hashCode() {
+    return Objects.hash(yearOfProduction, brand);
+  }
+
+  // Конструктор
   public Car(String assembCountry, int serNumber, String newBrand, int newProdYear) {
     super(assembCountry, serNumber);
     System.out.println(setBrand(newBrand));
