@@ -62,4 +62,11 @@ public class Express extends Train {
     System.out.println(setExpressway(newExpressway));
     System.out.println(setServiceYear(newServiceYear));
   }
+
+  public Express() {
+    this("Russia", 
+    1, "Cargo", 
+    80, "Moscow - St.P.", 
+    2001);
+  }
 }
