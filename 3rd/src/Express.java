@@ -6,7 +6,7 @@ public class Express extends Train {
 
   public String setExpressway(String newExpressway) {
     mainExpressway = newExpressway;
-		return "The expressway was been successfully set";
+    return "The expressway was been successfully set";
   }
 
   public String getExpressway() {
@@ -15,13 +15,14 @@ public class Express extends Train {
 
   public String setServiceYear(int newServiceYear) {
     if(newServiceYear <= yearOfService) {
-      return "the year of service cannot be less than the year of the last service, the base value has been set";
-		}
+      return "the year of service cannot be less than " +
+      "the year of the last service, the base value has been set";
+    }
     if(newServiceYear > 2024) {
       return "The maximum possible year is 2024, the base value has been set";
     }
     yearOfService = newServiceYear;
-		return "The maximum speed was been successfully set";
+    return "The maximum speed was been successfully set";
   }
 
   public int getServiceYear() {
@@ -30,7 +31,8 @@ public class Express extends Train {
 
   // Сравнивает данный и собственый объект
   public boolean equals(Object otherObject) {
-    if(otherObject instanceof Train && super.equals(otherObject)) return true;
+    if(otherObject instanceof Train && 
+    super.equals(otherObject)) return true;
     if (this == otherObject) return true;
     if (otherObject == null) return false;
     if (getClass() != otherObject.getClass()) return false;
@@ -42,7 +44,8 @@ public class Express extends Train {
 
   // Функция, возвращающая объект в виде строки
   public String toString() {
-    return new String(super.toString() + " " + mainExpressway + " " + Integer.toString(yearOfService));
+    return new String(super.toString() + " " + 
+    mainExpressway + " " + Integer.toString(yearOfService));
   }
 
   // Возвращает hash код

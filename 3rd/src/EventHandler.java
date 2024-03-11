@@ -6,9 +6,14 @@
  * Номер варианта: 7
  * 
  * Задание:
- * Входные данные: Для каждого варианта имеется набор из четырех сущностей. Необходимо выстроить иерархию наследования. 
- * В каждом классе (базовом и производных) должно быть  не менее одного числового и одного строкового поля. 
- * При вводе числовых параметров обязательна проверка на число и на диапазон (даже если число может быть любое, проверку необходимо реализовать).
+ * Входные данные: 
+ * Для каждого варианта имеется набор из четырех сущностей. 
+ * Необходимо выстроить иерархию наследования. 
+ * В каждом классе (базовом и производных) должно быть
+ * не менее одного числового и одного строкового поля. 
+ * При вводе числовых параметров обязательна проверка на число и 
+ * на диапазон (даже если число может быть любое, 
+ * проверку необходимо реализовать).
 */
 
 import java.util.ArrayList;
@@ -47,7 +52,8 @@ public class EventHandler {
             break;
           }
           printAlIbjects(vhencleBase);
-          int indexToDel = getCorrectInput(0, vhencleBase.size(), "Choose the object to delete (write a number)");
+          int indexToDel = getCorrectInput(0, vhencleBase.size(), 
+          "Choose the object to delete (write a number)");
           vhencleBase.remove(indexToDel);
           break;
         case 2:
@@ -67,7 +73,8 @@ public class EventHandler {
   }
 
   /*
-   * Создает новый объект, спрашивая у юзера, что именно он хочет создать
+   * Создает новый объект, спрашивая у юзера, 
+   * что именно он хочет создать
    * 
    * Ничего не принимает на вход
    * 
@@ -81,27 +88,41 @@ public class EventHandler {
       "2 - Train\n" +
       "3 - Express\n"));
 
-    String assemblyCountry = getCorrectStrInput("Enter the country of assembly");
-    int serialNumber =  getCorrectInput("Enter the serial number");
+    String assemblyCountry = getCorrectStrInput(
+      "Enter the country of assembly");
+    int serialNumber = getCorrectInput(
+      "Enter the serial number");
     switch (typeSelected) {
       case 0:
         return new Vhencle(assemblyCountry, serialNumber);
       case 1:
-        String newBrand = getCorrectStrInput("Enter the car brand");
-        int newProdYear = getCorrectInput("Enter the year of production");
-        return new Car(assemblyCountry, serialNumber, newBrand, newProdYear);
+        String newBrand = getCorrectStrInput(
+          "Enter the car brand");
+        int newProdYear = getCorrectInput(
+          "Enter the year of production");
+        return new Car(assemblyCountry, serialNumber, 
+        newBrand, newProdYear);
       case 2:
-        String newPurpose = getCorrectStrInput("Enter the train purpose");
-        int newMaxSpeed = getCorrectInput("Enter the train maximum speed value");
-        return new Train(assemblyCountry, serialNumber, newPurpose, newMaxSpeed);
+        String newPurpose = getCorrectStrInput(
+          "Enter the train purpose");
+        int newMaxSpeed = getCorrectInput(
+          "Enter the train maximum speed value");
+        return new Train(assemblyCountry, serialNumber, 
+        newPurpose, newMaxSpeed);
       case 3:
-        newPurpose = getCorrectStrInput("Enter the train purpose");
-        newMaxSpeed = getCorrectInput("Enter the train maximum speed value");
-        String newExpressway = getCorrectStrInput("Enter the main expressway");
-        int newServiceYear  = getCorrectInput("Enter the train last service year");
-        return new Express(assemblyCountry, serialNumber, newPurpose, newMaxSpeed, newExpressway, newServiceYear);
+        newPurpose = getCorrectStrInput(
+          "Enter the train purpose");
+        newMaxSpeed = getCorrectInput(
+          "Enter the train maximum speed value");
+        String newExpressway = getCorrectStrInput(
+          "Enter the main expressway");
+        int newServiceYear = getCorrectInput(
+          "Enter the train last service year");
+        return new Express(assemblyCountry, serialNumber, 
+        newPurpose, newMaxSpeed, 
+        newExpressway, newServiceYear);
       default:
-        return new Vhencle();   
+        return new Vhencle();
     }
   }
 
@@ -131,8 +152,10 @@ public class EventHandler {
       return;
     }
     printAlIbjects(vhencleBase);
-    int indexToCompare_1 = getCorrectInput(0, vhencleBase.size(), "Choose the firts object to compare (write a number)");
-    int indexToCompare_2 = getCorrectInput(0, vhencleBase.size(), "Choose the second object to compare (write a number)");
+    int indexToCompare_1 = getCorrectInput(0, 
+    vhencleBase.size(), "Choose the firts object to compare (write a number)");
+    int indexToCompare_2 = getCorrectInput(0, 
+    vhencleBase.size(), "Choose the second object to compare (write a number)");
 
     if(indexToCompare_1 == indexToCompare_2) {
       System.out.println("You entered the same indexes");
@@ -142,7 +165,8 @@ public class EventHandler {
     var firstObject = vhencleBase.get(indexToCompare_1);
     var secondObject = vhencleBase.get(indexToCompare_2);
 
-    System.out.println("The result of the comparison: " + firstObject.equals(secondObject));
+    System.out.println("The result of the comparison: " + 
+    firstObject.equals(secondObject));
   }
   
   /*
@@ -206,7 +230,8 @@ public class EventHandler {
     while (true) {
       if(scanner.hasNextInt()) {
         int result = scanner.nextInt();
-        if(((result >= crctVlsStart && result <= crctVlsEnd) || crctVlsStart == crctVlsEnd) && result >= 0) {
+        if(((result >= crctVlsStart && result <= crctVlsEnd) || 
+        crctVlsStart == crctVlsEnd) && result >= 0) {
           return result;
         }
         System.out.println("The input is incorrect. Please try again");

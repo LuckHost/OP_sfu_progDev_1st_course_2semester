@@ -7,9 +7,9 @@ public class Car extends Vhencle {
   public String setBrand(String newBrand) {
     if(newBrand.matches("\\d+")) {
       return "The string contains numbers, the brand is not set";
-		}
+    }
     brand = newBrand;
-		return "The brand was been successfully set";
+    return "The brand was been successfully set";
   }
 
   public String getBrand() {
@@ -18,10 +18,11 @@ public class Car extends Vhencle {
 
   public String setProdYear(int newProdYear) {
     if(newProdYear < 1886 || newProdYear > 2024) {
-      return "The year of production can't be more than 1886 and less than 2024, the base value has been set";
-		}
+      return "The year of production can't be more " +
+      "than 1886 and less than 2024, the base value has been set";
+    }
     yearOfProduction = newProdYear;
-		return "The year of production was been successfully set";
+    return "The year of production was been successfully set";
   }
 
   public int getProdYear() {
@@ -30,7 +31,8 @@ public class Car extends Vhencle {
 
   // Функция, возвращающая объект в виде строки
   public String toString() {
-    return new String(super.toString() + " " + brand + " " + Integer.toString(yearOfProduction));
+    return new String(super.toString() + " " + 
+    brand + " " + Integer.toString(yearOfProduction));
   }
 
   // Сравнивает данный и собственый объект
@@ -52,7 +54,8 @@ public class Car extends Vhencle {
   }
 
   // Конструктор
-  public Car(String assembCountry, int serNumber, String newBrand, int newProdYear) {
+  public Car(String assembCountry, int serNumber, 
+  String newBrand, int newProdYear) {
     super(assembCountry, serNumber);
     System.out.println(setBrand(newBrand));
     System.out.println(setProdYear(newProdYear));

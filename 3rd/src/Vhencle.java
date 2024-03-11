@@ -10,9 +10,9 @@ public class Vhencle {
   public String setCountry(String newCountry) {
     if(newCountry.matches("\\d+")) {
       return "The string contains numbers, the country is not set";
-		}
+    }
     assemblyCountry = newCountry;
-		return "The country was been successfully set";
+    return "The country was been successfully set";
   }
 
   public String getCountry() {
@@ -22,9 +22,9 @@ public class Vhencle {
   public String setSerNumb(int newSerNumb) {
     if(newSerNumb == 0) {
       return "The serial number can't be empty, the base value has been set";
-		}
+    }
     serialNumber = newSerNumb;
-		return "The serial number was been successfully set";
+    return "The serial number was been successfully set";
   }
 
   public int getSerNumb() {
