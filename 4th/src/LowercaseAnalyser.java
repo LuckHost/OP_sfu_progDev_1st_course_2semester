@@ -1,3 +1,7 @@
+/*
+ * Класс, который возвращает 
+ * количество строчных символов в строке
+ */
 public class LowercaseAnalyser implements StringAnalyser {
   @Override
   public int analyse(String str) {
