@@ -60,4 +60,9 @@ public class Car extends Vhencle {
     System.out.println(setBrand(newBrand));
     System.out.println(setProdYear(newProdYear));
   }
+
+  public Car() {
+    this("Germany", 1, 
+    "Audi", 2023);
+  }
 }

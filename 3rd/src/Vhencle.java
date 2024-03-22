@@ -60,5 +60,6 @@ public class Vhencle {
   }
 
   public Vhencle() {
+    this("Germany", 1);
   }
 }

@@ -41,33 +41,33 @@ public class EventHandler {
       "2 - Print all objects to the console\n" +
       "3 - Compare two objects\n" + 
       "4 - exit"));
-      switch (taskSelected) {
-        case 0:
-          Vhencle newObject = createNewObject();
-          vhencleBase.add(newObject);
+    switch (taskSelected) {
+      case 0:
+        Vhencle newObject = createNewObject();
+        vhencleBase.add(newObject);
+        break;
+      case 1:
+        if(vhencleBase.size() < 1) {
+          System.out.println("Base is empty");
           break;
-        case 1:
-          if(vhencleBase.size() < 1) {
-            System.out.println("Base is empty");
-            break;
-          }
-          printAlIbjects(vhencleBase);
-          int indexToDel = getCorrectInput(0, vhencleBase.size(), 
-          "Choose the object to delete (write a number)");
-          vhencleBase.remove(indexToDel);
-          break;
-        case 2:
-          printAlIbjects(vhencleBase);
-          break;
-        case 3:
-          compareObjects(vhencleBase);
-          break;
-        case 4:
-          working = false;
-          break;
-        default:
-          // getCorrectInput не позволит добраться сюда
-          break;
+        }
+        printAlIbjects(vhencleBase);
+        int indexToDel = getCorrectInput(0, vhencleBase.size(), 
+        "Choose the object to delete (write a number)");
+        vhencleBase.remove(indexToDel);
+        break;
+      case 2:
+        printAlIbjects(vhencleBase);
+        break;
+      case 3:
+        compareObjects(vhencleBase);
+        break;
+      case 4:
+        working = false;
+        break;
+      default:
+        // getCorrectInput не позволит добраться сюда
+        break;
       }
     }
   }
@@ -86,7 +86,8 @@ public class EventHandler {
       "0 - Just a vhencle\n" +
       "1 - Car\n" +
       "2 - Train\n" +
-      "3 - Express\n"));
+      "3 - Express\n" +
+      "4 - Plane"));
 
     String assemblyCountry = getCorrectStrInput(
       "Enter the country of assembly");
@@ -121,6 +122,14 @@ public class EventHandler {
         return new Express(assemblyCountry, serialNumber, 
         newPurpose, newMaxSpeed, 
         newExpressway, newServiceYear);
+      case 4:
+        int horsepower = getCorrectInput(
+          "Enter the horsepower");
+        String engineType = getCorrectStrInput(
+          "Enter the engine type"
+        );
+        return new Plane(assemblyCountry, serialNumber, 
+        engineType, horsepower);
       default:
         return new Vhencle();
     }

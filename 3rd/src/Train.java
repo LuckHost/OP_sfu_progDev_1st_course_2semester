@@ -62,4 +62,10 @@ public class Train extends Vhencle {
     System.out.println(setTrainPurp(newPurpose));
     System.out.println(setMaxSpeed(newMaxSpeed));
   }
+
+  public Train() {
+    this("Russia", 
+    1, "Cargo", 
+    80);
+  }
 }
