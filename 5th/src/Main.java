@@ -48,18 +48,16 @@ public class Main {
         case 1:
           String name = getCorrectStrInput(new String("Enter the student's name: "));
           String fieldOfStudy = getCorrectStrInput(new String("Enter the student's field of study: "));
-          float averageRating = getCorrectFloatInput(new String("Enter the student's average rating: "));
           Integer yearOfAdmission = getCorrectInput(new String("Enter the student's year of admission: "));
 
           // Обработчик исключения InvalidIntInputException,
           // которое было повторно создано в Students.java
           try {
-            newStudent = new Student(name, fieldOfStudy, averageRating, yearOfAdmission);
+            newStudent = new Student(name, fieldOfStudy, yearOfAdmission);
             studentsBase.add(newStudent);
           } catch (InvalidIntInputException e) {
             System.out.println(e.getMessage());
           }
-          
           break;
         case 2:
           if(studentsBase.size() == 0) {
@@ -223,15 +221,16 @@ public class Main {
     String[] wrongValues = new String[]{"@", "#", "$", "%", "^", "&", "*", "+", "="};
     Boolean cntnue = true;
     while (cntnue) {
-      output = scanner.nextLine();
+      if (scanner.hasNextLine()) output = scanner.nextLine();
+      else continue;
+      
       for (String wrongValue : wrongValues) {
         if(output.indexOf(wrongValue) != -1){
           System.out.println("The input has forbidden characters. Please try again");
-          scanner = new Scanner(System.in);
-          cntnue = true;
-          break;
+          continue;
         } else {
           cntnue = false;
+          break;
         }
       }
     }
@@ -257,8 +256,8 @@ public class Main {
         System.out.println("The input is incorrect. Please try again");
         scanner = new Scanner(System.in);
       } else {
-        System.out.println("Try again");
         scanner = new Scanner(System.in);
+        System.out.println("Try again");
       }
     }
   }
@@ -293,16 +292,16 @@ public class Main {
     System.out.println(message);
     Scanner scanner = new Scanner(System.in);
     while (true) {
+      scanner = new Scanner(System.in);
       if(scanner.hasNextInt()) {
-        int result = scanner.nextInt();
+        int result = Integer.parseInt(scanner.nextLine());
         if((result >= crctVlsStart && result <= crctVlsEnd) || crctVlsStart == crctVlsEnd) {
           return result;
         }
         System.out.println("The input is incorrect. Please try again");
-        scanner = new Scanner(System.in);
+        
       } else {
         System.out.println("Try again");
-        scanner = new Scanner(System.in);
       }
     }
   }

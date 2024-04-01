@@ -1,3 +1,6 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import javax.management.StringValueExp;
 
 public class Student {
@@ -84,21 +87,38 @@ public class Student {
    * InvalidIntInputException
    * 
    */
-  public Student(String newName, String newStudyField,
-  float newAverageRating, Integer newYearOfAdmission) throws Throwable {
+  public Student(String newName, String newStudyField, 
+  Integer newYearOfAdmission) throws Throwable {
+    Scanner scanner = null;
+    float result = 0f;
     try {
+      // Для примера подавленного исключения создан импорт числа здесь
+      System.out.println("Enter the student's average rating: ");
+      scanner = new Scanner(System.in);
+      result = scanner.nextFloat();
+
       System.out.println(setName(newName));
       System.out.println(setStudyField(newStudyField));
-      System.out.println(setAverageRating(newAverageRating));
       System.out.println(setYearOfAdmission(newYearOfAdmission));
     } catch (InvalidStringInputException e) {
-      // Простой перехват
+      // Простой перехват собственного исключения
       System.out.println(e.getMessage());
     } catch (InvalidIntInputException e) {
       // Повторное генерирование, обрабатывается в Main.java
       Throwable se = new InvalidIntInputException(e.getMessage());
       se.initCause(e);
       throw se;
+    } catch (InputMismatchException e) {
+      // Простой перехват базовго исключения
+      System.out.println("An error occurred when entering the value. "+
+      "The student is not created.");
+    } finally {
+      // подавленное исключение 
+      try {
+        System.out.println(setAverageRating(result));
+      } catch (Exception e) {
+        System.out.println("Failed to create a new student. Сheck the entered data.");
+      }
     }
   }
   public Student() {
