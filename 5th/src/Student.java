@@ -1,3 +1,4 @@
+import java.util.logging.Logger;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -92,10 +93,12 @@ public class Student {
     Scanner scanner = null;
     float result = 0f;
     try {
-      // Для примера подавленного исключения создан импорт числа здесь
+      // Для примера подавленного исключения, а также 
+      // для применения "утверждения" создан импорт числа здесь
       System.out.println("Enter the student's average rating: ");
       scanner = new Scanner(System.in);
       result = scanner.nextFloat();
+      assert result > 0;
 
       System.out.println(setName(newName));
       System.out.println(setStudyField(newStudyField));
@@ -117,7 +120,12 @@ public class Student {
       try {
         System.out.println(setAverageRating(result));
       } catch (Exception e) {
-        System.out.println("Failed to create a new student. Сheck the entered data.");
+        System.out.println("Failed to create a new student. Check the entered data.");
+        // пример логгирования
+        Logger.getGlobal().info("A new suppressed exception has been created");
+        Throwable se = new InvalidIntInputException(e.getMessage());
+        se.initCause(e);
+        throw se;
       }
     }
   }
