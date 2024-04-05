@@ -46,9 +46,12 @@ public class Main {
           studentsBase.add(newStudent);
           break;
         case 1:
-          String name = getCorrectStrInput(new String("Enter the student's name: "));
-          String fieldOfStudy = getCorrectStrInput(new String("Enter the student's field of study: "));
-          Integer yearOfAdmission = getCorrectInput(new String("Enter the student's year of admission: "));
+          String name = getCorrectStrInput(new String(
+            "Enter the student's name: "));
+          String fieldOfStudy = getCorrectStrInput(new String(
+            "Enter the student's field of study: "));
+          Integer yearOfAdmission = getCorrectInput(new String(
+            "Enter the student's year of admission: "));
 
           // Обработчик исключения InvalidIntInputException,
           // которое было повторно создано в Students.java
@@ -173,7 +176,8 @@ public class Main {
    * любого студента в базе
    * Принимает базу студентов
    */
-  public static void changeStudentsField(ArrayList<Student> studentsBase) throws InvalidStringInputException, InvalidIntInputException {
+  public static void changeStudentsField(ArrayList<Student> studentsBase) throws 
+  InvalidStringInputException, InvalidIntInputException {
     Integer userId = getCorrectInput(0, 3, 
       new String("Enter the student's number you want to change: "));
     Student stdToChange = studentsBase.get(userId);
