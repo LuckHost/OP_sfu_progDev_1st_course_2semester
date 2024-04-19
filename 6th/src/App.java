@@ -22,8 +22,10 @@ public class App {
       System.out.println("4. Delete the element after the pointer");
       System.out.println("5. Peek at the element after the pointer");
       System.out.println("6. Move the pointer to the right");
-      System.out.println("7. Swap the values of the end of the list and the element after the pointer");
-      System.out.println("8. Swap the values of the start of the list and the element after the pointer");
+      System.out.println("7. Swap the values of the end of "+
+      "the list and the element after the pointer");
+      System.out.println("8. Swap the values of the start of "+
+      "the list and the element after the pointer");
       System.out.println("9. Display the list");
       System.out.println("0. Exit");
 
@@ -64,7 +66,8 @@ public class App {
         list.deleteAfterCurrent();
         break;
       case 5:
-        System.out.println("The element after the pointer: " + list.peekCurrent());
+        System.out.println("The element after the pointer: " + 
+        list.peekCurrent());
         break;
       case 6:
         list.movePointerRight();

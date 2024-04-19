@@ -80,8 +80,11 @@ public class CircularLinkedList<T> {
    * Перемещает указатель вправо.
    */
   public void movePointerRight() {
-    if (current != null)
+    if (current != null) {
       current = current.next;
+    } else {
+      System.out.println("The list is too short.");
+    }
   }
 
   /*
@@ -89,6 +92,10 @@ public class CircularLinkedList<T> {
    */
   public void swapEndAndCurrent() {
     if (!isEmpty() && current != null) {
+      if(current == current.next) {
+        System.out.println("The list is too short.");
+        return;
+      }
       T temp = tail.data;
       tail.data = current.next.data;
       current.next.data = temp;
@@ -100,6 +107,10 @@ public class CircularLinkedList<T> {
    */
   public void swapStartAndCurrent() {
     if (!isEmpty() && current != null) {
+      if(current == current.next) {
+        System.out.println("The list is too short.");
+        return;
+      }
       T temp = head.data;
       head.data = current.next.data;
       current.next.data = temp;
