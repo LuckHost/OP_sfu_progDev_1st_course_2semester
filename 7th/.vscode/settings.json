@@ -1,0 +1,8 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "editor.rulers": [80,100],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ]
+}
