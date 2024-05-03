@@ -1,5 +1,6 @@
 import java.util.logging.Logger;
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Student {
@@ -23,8 +24,9 @@ public class Student {
     return "The name has been successfully set";
   }
 
+
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public String setStudyField(String newStudyField) throws 
@@ -83,6 +85,27 @@ public class Student {
     return 2024 - yearOfAdmission;
   }
 
+  public String toString() {
+    return new String(name + " " + 
+    fieldOfStudy + " " + averageRating + " " + yearOfAdmission);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == null) return false;
+    if (other == this) return true;
+    if (other.getClass() != getClass()) return false;
+    Student student = (Student) other;
+    return (name.equals(student.name) && fieldOfStudy.equals(student.fieldOfStudy) &&
+      averageRating.equals(student.averageRating) && 
+      yearOfAdmission.equals(student.yearOfAdmission));
+  }
+
+  @Override
+    public int hashCode() {
+        return Objects.hashCode(averageRating);
+    }
+
   /*
    * Конструктор класса
    * 
@@ -92,6 +115,7 @@ public class Student {
    * InvalidIntInputException
    * 
    */
+  
   public Student(String newName, String newStudyField, 
   Integer newYearOfAdmission) throws InvalidIntInputException, 
   InputMismatchException, InvalidStringInputException, Exception {
@@ -141,4 +165,13 @@ public class Student {
   }
   public Student() {
   }
+
+  public Student(String newName, String newStudyField, 
+  Integer newYearOfAdmission, float averageRating) 
+  throws InvalidStringInputException, InvalidIntInputException {
+    name = newName;
+    averageRating = averageRating;
+    fieldOfStudy = newStudyField;
+    yearOfAdmission = newYearOfAdmission;
+  } 
 }

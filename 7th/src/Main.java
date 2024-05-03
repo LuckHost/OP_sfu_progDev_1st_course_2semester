@@ -16,11 +16,17 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main {
   /*
@@ -43,15 +49,15 @@ public class Main {
         "2 - Edit student values by index\n" +
         "3 - Print all students to the console\n" + 
         "4 - Sort the list by field\n" + 
-        "5 - createStreamFromList\n" + 
-        "6 - filterByCriteria\n" + 
-        "7 - removeDuplicates\n" + 
-        "8 - accumulateOperation\n" + 
-        "9 - demonstrateOptional\n" +
-        "10 - groupByFieldAndCount\n" + 
-        "11 - demonstrateSummaryStatistics\n" + 
-        "12 - saveDataToFile\n" + 
-        "13 - loadDataFromFile\n" +  
+        "5 - Create stream from list\n" + 
+        "6 - Filter by average rating\n" + 
+        "7 - Show a list with removed duplicates\n" + 
+        "8 - Print the sum of all average ratings\n" + 
+        "9 - Find student by name (Optional example)\n" +
+        "10 - Group by study fields and count\n" + 
+        "11 - Demonstrate summary statistics of average rating\n" + 
+        "12 - Save data to a file\n" + 
+        "13 - Load data from a file\n" +  
         "14 - exit"));
       switch (taskSelected) {
         case 0:
@@ -77,7 +83,7 @@ public class Main {
           break;
         case 2:
           if(studentsBase.size() == 0) {
-            System.out.println(new String("There is no students to change now "));
+            System.out.println(new String("There is no students to change now"));
             break;
           }
           printAllStudents(studentsBase);
@@ -85,44 +91,76 @@ public class Main {
           break;
         case 3:
           if(studentsBase.size() == 0) {
-            System.out.println(new String("There is no students to print now "));
+            System.out.println(new String("There is no students to print now"));
             break;
           }
           printAllStudents(studentsBase);
           break;
         case 4:
           if(studentsBase.size() == 0) {
-            System.out.println(new String("There is no students to sort now "));
+            System.out.println(new String("There is no students to sort now"));
             break;
           }
           sortStudentBase(studentsBase);
           break;
         case 5:
+          if(studentsBase.size() == 0) {
+            System.out.println(new String("There is no students to create stream "));
+            break;
+          }
           createStreamFromList(studentsBase);
           break;
         case 6:
+          if(studentsBase.size() == 0) {
+            System.out.println(new String("There is no students to filter"));
+            break;
+          }
           filterByCriteria(studentsBase);
           break;
         case 7:
+          if(studentsBase.size() == 0) {
+            System.out.println(new String("There is no students to remove"));
+            break;
+          }
           removeDuplicates(studentsBase);
           break;
         case 8:
+          if(studentsBase.size() == 0) {
+            System.out.println(new String("There is no students to accumulate"));
+            break;
+          }
           accumulateOperation(studentsBase);
           break;
         case 9:
-          demonstrateOptional();
+          if(studentsBase.size() == 0) {
+            System.out.println(new String("There is no students to demonstrate"));
+            break;
+          }
+          demonstrateOptional(studentsBase);
           break;
         case 10:
+          if(studentsBase.size() == 0) {
+            System.out.println(new String("There is no students to group"));
+            break;
+          }
           groupByFieldAndCount(studentsBase);
           break;
         case 11:
+          if(studentsBase.size() == 0) {
+            System.out.println(new String("There is no students to demonstrate"));
+            break;
+          }
           demonstrateSummaryStatistics(studentsBase);
           break;
         case 12:
+          if(studentsBase.size() == 0) {
+            System.out.println(new String("There is no students to save"));
+            break;
+          }
           saveDataToFile(studentsBase);
           break;
         case 13:
-          loadDataFromFile();
+          studentsBase = loadDataFromFile();
           break;
         case 14:
           working = false;
@@ -139,14 +177,10 @@ public class Main {
    * 
    * Принимает базу студентов 
    */
-  public static void printAllStudents(ArrayList<Student> studentsBase) {
+  public static void printAllStudents(List<Student> studentsBase) {
     int counter = 0;
     for (Student student : studentsBase) {
-      System.out.println(counter + " | " + student.getName() + " " 
-      + student.getStudyField() + " "
-      + student.getAverageRating() + " " 
-      + student.getYearOfAdmission() + " " 
-      + student.getCourse());
+      System.out.println(counter + " | " + student.toString());
       counter++;
     }
     
@@ -263,10 +297,11 @@ public class Main {
   // Метод для фильтрации объектов по заданному признаку, введенному пользователем
   public static void filterByCriteria(ArrayList<Student> studentsBase) {
     Scanner scanner = new Scanner(System.in);
-    System.out.println("Enter the criteria to filter by:");
+    System.out.println("Enter the average rating to filter by:\n" + 
+    "(only students with a lower rating will be displayed)");
     float criteria = scanner.nextFloat();
     List<Student> filteredStudents = studentsBase.stream()
-        .filter(student -> student.getAverageRating() > criteria)
+        .filter(student -> student.getAverageRating() < criteria)
         .collect(Collectors.toList());
     filteredStudents.forEach(System.out::println);
   }
@@ -276,29 +311,38 @@ public class Main {
     List<Student> uniqueStudents = studentsBase.stream()
         .distinct()
         .collect(Collectors.toList());
-    uniqueStudents.forEach(System.out::println);
+    printAllStudents(uniqueStudents);
   }
 
-  // Метод для демонстрации операции сведения с накоплением (например, сумма всех элементов)
+  // Метод для демонстрации операции сведения с накоплением (сумма всех средних оценок)
   public static void accumulateOperation(ArrayList<Student> studentsBase) {
-    float sum = studentsBase.stream()
-          .mapToInt(student -> student.getYearOfAdmission())
+    Double sum = studentsBase.stream()
+          .mapToDouble(student -> student.getAverageRating())
           .sum();
     System.out.println("Sum of all average ratings: " + sum);
   }
 
   // Метод для демонстрации работы с типом Optional
-  public static void demonstrateOptional() {
-    Optional<String> optionalString = Optional.ofNullable(null);
-    if (optionalString.isPresent()) {
-      System.out.println("Value: " + optionalString.get());
+  public static void demonstrateOptional(ArrayList<Student> studentsBase) {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Enter the name of the student you want to find: ");
+    String name = scanner.nextLine();
+    Optional<Student> firstEvenStudent = studentsBase.stream()
+      .filter(n -> n.getName().equals(name)).findFirst();
+    if (firstEvenStudent.isPresent()) {
+      System.out.println("The first match found: " + 
+        firstEvenStudent.get().toString());
     } else {
-      System.out.println("Value is not present");
+      System.out.println("Student is not present");
     }
   }
 
-  // Метод для группировки объектов по некоторому полю и вывода числа элементов в группе
+  // Метод для группировки объектов по некоторому полю (fieldOfStudy)
+  // и вывода числа элементов в группе
   public static void groupByFieldAndCount(ArrayList<Student> studentsBase) {
+    studentsBase.stream()
+            .collect(Collectors.groupingBy(Student::getStudyField, Collectors.counting()))
+            .forEach((field, count) -> System.out.println(field + ": " + count));
     long countByFieldOfStudy = studentsBase.stream()
         .collect(Collectors.groupingBy(Student::getStudyField, Collectors.counting()))
         .entrySet().stream()
@@ -313,17 +357,46 @@ public class Main {
         .mapToDouble(Student::getAverageRating)
         .summaryStatistics()
         .getAverage();
-    System.out.println("Average average rating: " + averageRatingAverage);
+    System.out.println("Average rating of all students: " + averageRatingAverage);
   }
 
   // Метод для загрузки данных из файла
-  public static void loadDataFromFile() {
-      // Реализация загрузки данных из файла
+  public static ArrayList<Student> loadDataFromFile() throws InputMismatchException, 
+  InvalidIntInputException, InvalidStringInputException, Exception {
+    String fileName = getCorrectStrInput("Enter the file name: ");
+    ArrayList<Student> studentsBase = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        String[] parts = line.split(",");
+        String name = parts[0];
+        String studyField = parts[1];
+        int yearOfAdmission = Integer.parseInt(parts[2]);
+        float averageRating = Float.parseFloat(parts[3]);
+        studentsBase.add(new Student(name, studyField, yearOfAdmission, averageRating));
+      }
+    } catch(Exception e) {
+      System.out.println("Error loading data from the file");;
+    }
+    return studentsBase;
   }
 
   // Метод для сохранения данных в файл
-  public static void saveDataToFile(ArrayList<Student> studentsBase) {
-      // Реализация сохранения данных в файл
+  public static void saveDataToFile(ArrayList<Student> studentsBase) throws IOException {
+    String fileName = getCorrectStrInput("Enter the file name: ");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+      studentsBase.forEach(student -> {
+          try {
+              writer.write(student.getName() + "," + 
+              student.getStudyField() + "," + 
+              student.getYearOfAdmission() + "," +
+              student.getAverageRating());
+              writer.newLine();
+          } catch (IOException e) {
+              System.out.println("Error saving the file");
+          }
+      });
+  }
   }
 
   /*
